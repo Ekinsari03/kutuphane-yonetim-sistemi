@@ -1,36 +1,162 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kütüphane Yönetim Sistemi
 
-## Getting Started
+Modern bir kütüphane yönetim sistemi. Kullanıcılar kitapları görüntüleyebilir, mesajlaşabilir ve profillerini yönetebilir. Admin kullanıcılar ise sistemi tam olarak yönetebilir.
 
-First, run the development server:
+## 🚀 Özellikler
 
+### 🔐 Kimlik Doğrulama
+- Kullanıcı kayıt ve giriş sistemi
+- Rol tabanlı yetkilendirme (User/Admin)
+- Güvenli şifre hashleme (bcrypt)
+- NextAuth.js ile session yönetimi
+
+### 👥 Kullanıcı Özellikleri
+- **Profil Yönetimi**: Biyografi, konum ve profil fotoğrafı
+- **Kitap Görüntüleme**: Tüm kitapları kategori bazında görüntüleme
+- **Mesajlaşma**: Diğer kullanıcılarla mesajlaşma
+- **Responsive Tasarım**: Mobil uyumlu modern arayüz
+
+### 👨‍💼 Admin Özellikleri
+- **Kullanıcı Yönetimi**: Kullanıcıları listeleme, silme, rol değiştirme
+- **Kitap Yönetimi**: Kitap ekleme, düzenleme, silme
+- **Kategori Yönetimi**: Kategori ekleme ve silme
+- **Dashboard**: Sistem istatistikleri
+
+## 🛠️ Teknolojiler
+
+- **Framework**: Next.js 15 (App Router)
+- **Veritabanı**: SQLite + Prisma ORM
+- **Kimlik Doğrulama**: NextAuth.js
+- **Stil**: Tailwind CSS
+- **Dil**: TypeScript
+
+## 📦 Kurulum
+
+1. **Projeyi klonlayın:**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd library-app
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Bağımlılıkları yükleyin:**
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Veritabanını oluşturun:**
+```bash
+npx prisma migrate dev --name init
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. **Örnek verileri yükleyin:**
+```bash
+npm run db:seed
+```
 
-## Learn More
+5. **Geliştirme sunucusunu başlatın:**
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Uygulama http://localhost:3000 adresinde çalışacaktır.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔑 Test Hesapları
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Seed script'i çalıştırdıktan sonra aşağıdaki test hesaplarını kullanabilirsiniz:
 
-## Deploy on Vercel
+### Admin Hesabı
+- **Email**: admin@kutuphane.com
+- **Şifre**: admin123
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Kullanıcı Hesabı
+- **Email**: user@kutuphane.com
+- **Şifre**: user123
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Proje Yapısı
+
+```
+src/
+├── app/                    # Next.js App Router sayfaları
+│   ├── admin/             # Admin paneli sayfaları
+│   ├── api/               # API route'ları
+│   ├── auth/              # Kimlik doğrulama sayfaları
+│   ├── books/             # Kitap sayfaları
+│   ├── messages/          # Mesaj sayfaları
+│   └── profile/           # Profil sayfaları
+├── components/            # React bileşenleri
+│   └── admin/             # Admin bileşenleri
+├── lib/                   # Yardımcı kütüphaneler
+└── types/                 # TypeScript tip tanımları
+```
+
+## 🗄️ Veritabanı Şeması
+
+### Tablolar
+- **User**: Kullanıcı bilgileri ve roller
+- **Profile**: Genişletilmiş profil bilgileri
+- **Book**: Kitap bilgileri
+- **Category**: Kitap kategorileri
+- **Message**: Kullanıcı mesajları
+
+### İlişkiler
+- User ↔ Profile (1:1)
+- User ↔ Message (1:N)
+- Category ↔ Book (1:N)
+- User ↔ Book (1:N - kitapları ekleyen admin)
+
+## 🔧 Geliştirme
+
+### Veritabanı Değişiklikleri
+```bash
+# Yeni migration oluştur
+npx prisma migrate dev --name your-migration-name
+
+# Prisma Client'ı yeniden oluştur
+npx prisma generate
+
+# Veritabanını sıfırla
+npx prisma migrate reset
+```
+
+### Linting ve Formatting
+```bash
+# Linting
+npm run lint
+
+# Build
+npm run build
+```
+
+## 🎯 Kullanım Senaryoları
+
+### Normal Kullanıcı
+1. Kayıt olun veya giriş yapın
+2. Profil bilgilerinizi güncelleyin
+3. Kitap koleksiyonunu inceleyin
+4. Diğer kullanıcılarla mesajlaşın
+
+### Admin Kullanıcı
+1. Admin hesabıyla giriş yapın
+2. Admin Panel'e erişin
+3. Kategoriler oluşturun
+4. Kitaplar ekleyin
+5. Kullanıcıları yönetin
+
+## 📝 Notlar
+
+- Sistem güvenliği için şifreler bcrypt ile hashlenir
+- Admin kullanıcılar kendi rollerini değiştiremez
+- Mesajlaşma sistemi gerçek zamanlı değildir
+- Kategori silinmeden önce o kategorideki kitaplar silinmeli
+
+## 🤝 Katkıda Bulunma
+
+1. Fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Değişikliklerinizi commit edin (`git commit -m 'Add amazing feature'`)
+4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
+5. Pull Request açın
+
+## 📄 Lisans
+
+Bu proje MIT lisansı altında lisanslanmıştır.
